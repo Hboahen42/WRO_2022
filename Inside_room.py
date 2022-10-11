@@ -59,7 +59,7 @@ def inside_room():
     #turn to room
     robot.stop()
     robot.settings(0,0,900,900)
-    robot.turn(-94)
+    robot.turn(-97)
 
     #move straight
     robot.stop()
@@ -85,15 +85,15 @@ def water():
 
     robot.stop()
     robot.settings(0,0,900,900)
-    robot.turn(-20)
+    robot.turn(-26)
 
     #move back to drop bottle
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(115)
+    robot.straight(113)
     
     #lift drop bottle
-    lift(300,-180)
+    lift(300,-160)
 
     #move back to release bottle
     robot.stop()
@@ -101,17 +101,17 @@ def water():
     robot.straight(-170)
 
     #lift remaining water
-    lift(300,180)
+    lift(300,160)
 
     #turn go to out of room
     robot.stop()
     robot.settings(0,0,900,900)
-    robot.turn(116.5)
+    robot.turn(121.5)
 
     #move out of room
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(260)
+    robot.straight(265)
 
     lift(300,20)
 

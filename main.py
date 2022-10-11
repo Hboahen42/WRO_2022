@@ -8,6 +8,7 @@ from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
 import Inside_room
 import Inside_room2
+import Inside_room3
 
 # This program requires LEGO EV3 MicroPython v2.0 or higher.
 # Click "Open user guide" on the EV3 extension tab for more information.
@@ -25,7 +26,7 @@ large_motor = Motor(Port.D)
 robot = DriveBase(left_motor,right_motor,wheel_diameter=56, axle_track=170)
 
 # Write your program here.
-def pid_line(proportional_gain = 1.4,drive_speed = 600):
+def pid_line(proportional_gain = 1.05,drive_speed = 600):
     while left_sensor.reflection() + right_sensor.reflection() > 20:
 
         # Calculate the deviation from the threshold.
@@ -74,7 +75,7 @@ def pid_distance(proportional_gain = 1.4,drive_speed = 600, distance = 20):
     robot.stop()
 
 
-def pid_line2(proportional_gain = 1.4,drive_speed = 600):
+def pid_line2(proportional_gain = 1.05,drive_speed = 600):
     while left_sensor.reflection() + right_sensor.reflection() > 20:
 
         # Calculate the deviation from the threshold.
@@ -109,38 +110,38 @@ while True:
         #  a = -46
         #  b = 46
         robot.stop()
-        robot.settings(0,0,2000,2000)
-        robot.turn(48)
+        robot.settings(0,0,5000,5000)
+        robot.turn(46)
 
         # #move forward
         robot.stop()
-        robot.settings(2000,2000,0,0)
+        robot.settings(900,900,0,0)
         robot.straight(150)
 
         #pid
-        pid_line(1,400)
+        pid_line(1.05,300)
 
         #move forward
-        robot.settings(2000,2000,0,0)
-        robot.straight(50)
+        robot.settings(600,600,0,0)
+        robot.straight(60)
 
         #lift bottle
         lift(180,270)
 
         # #turn to rooms
         robot.stop()
-        robot.settings(0,0,2000,2000)
-        robot.turn(-38)
+        robot.settings(0,0,5000,5000)
+        robot.turn(-34)
 
         #go back
         robot.stop()
-        robot.settings(900,900,0,0)
-        robot.straight(-470)
+        robot.settings(5000,5000,0,0)
+        robot.straight(-464)
 
         # #turn to room line
         robot.stop()
-        robot.settings(0,0,900,900)
-        robot.turn(120)
+        robot.settings(0,0,5000,5000)
+        robot.turn(123)
         
         #pid
         pid_line2()
@@ -196,7 +197,7 @@ while True:
         robot.settings(0,0,900,900)
         robot.turn(-90)
 
-        pid_distance(1.5,800,550)
+        pid_distance(0.7,800,550)
 
         # cross to room
         robot.stop()
@@ -226,11 +227,11 @@ while True:
         if color_1.color() == Color.GREEN:
             Inside_room.led_indicator()
             # game()
-            Inside_room.game()
+            Inside_room3.game()
             ev3.light.off()
         else:
             Inside_room.led_indicator()
-            Inside_room.water()
+            Inside_room3.water()
             ev3.light.off()
 
         # go back
@@ -377,5 +378,3 @@ while True:
         robot.stop()
         robot.settings(0,0,900,900)
         robot.turn(140)
-
-exit()

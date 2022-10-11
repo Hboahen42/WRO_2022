@@ -21,9 +21,6 @@ color_1 = ColorSensor(Port.S3)
 color_2 = ColorSensor(Port.S2)
 large_motor = Motor(Port.D)
 robot = DriveBase(left_motor,right_motor,wheel_diameter=56, axle_track=170)
-
-
-
 def pid_line(proportional_gain = 1.4,drive_speed = 600):
     while left_sensor.reflection() + right_sensor.reflection() > 20:
 
@@ -40,26 +37,36 @@ def pid_line(proportional_gain = 1.4,drive_speed = 600):
     left_motor.brake()
     right_motor.brake()
 
-def inside_room2():
-    #pid
-    pid_line(1,200)
+def lift(rotation=160,angle=200):
+    large_motor.run_angle(rotation,angle,then=Stop.BRAKE)
 
-    #move forward
+
+def inside_room():
+    #pid
+    robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(15)
-    wait(200)
+    robot.straight(50)
+
+    pid_line(0.5,200)
+
+    # robot.stop()
+    # robot.settings(900,900,0,0)
+    # robot.straight(10)
+
+    wait(300)
+
 
     #turn to room
     robot.stop()
     robot.settings(0,0,900,900)
-    robot.turn(97.8)
+    robot.turn(-97)
 
     #move straight
     robot.stop()
     robot.settings(900,900,0,0)
     robot.straight(250)
 
-    output_color = color_2.color()
+    output_color = color_1.color()
     #lundary id here
     if output_color is not None:
         led_indicator()
@@ -73,85 +80,86 @@ def inside_room2():
 
 
 def water():
-    if inside_room2() is None:
+    if inside_room() is None:
         turn_to_lundary()
 
     robot.stop()
     robot.settings(0,0,900,900)
-    robot.turn(20)
+    robot.turn(26)
 
     #move back to drop bottle
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(110)
-
+    robot.straight(113)
     
     #lift drop bottle
-    lift(300,-180)
+    lift(300,-160)
 
     #move back to release bottle
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(-70)
+    robot.straight(-170)
 
     #lift remaining water
-    lift(300,180)
+    lift(300,160)
 
     #turn go to out of room
     robot.stop()
     robot.settings(0,0,900,900)
-    robot.turn(-116.5)
+    robot.turn(100)
 
     #move out of room
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(280)
+    robot.straight(265)
 
-def game(turn=-65):
-    if inside_room2() is None:
+    lift(300,20)
+
+def game():
+    if inside_room() is None:
         turn_to_lundary()
     
     #turn to ball
     robot.stop()
     robot.settings(0,0,900,900)
-    robot.turn(-71.8)
+    robot.turn(65)
 
     #move to ball
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(-126)
+    robot.straight(-123)
 
 
     #lift ball
-    lift(350,-180)
+    lift(350,-150)
 
     #move to drop in basket
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(79)
+    robot.straight(70)
 
     #turn to ball
     robot.stop()
     robot.settings(0,0,900,900)
-    robot.turn(-95)
+    robot.turn(95)
 
     #move to basket
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(-149)
+    robot.straight(-130)
 
     #drop ball
-    lift(350,120)
+    lift(350,100)
 
     #move away from basket
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(125)
+    robot.straight(105)
 
     #move out of bottle
     robot.stop()
     robot.settings(0,0,900,900)
-    robot.turn(65)
+    robot.turn(-66)
 
     #out of room
     robot.stop()
@@ -159,9 +167,6 @@ def game(turn=-65):
     robot.straight(300)
 
     lift(350,50)
-
-def lift(rotation=160,angle=200):
-    large_motor.run_angle(rotation,angle,then=Stop.BRAKE)
 
 
 def turn_to_lundary(): 
@@ -173,7 +178,7 @@ def turn_to_lundary():
     #turn to bottle
     robot.stop()
     robot.settings(0,0,900,900)
-    robot.turn(-95)
+    robot.turn(93.5)
 
     #move back to pick bottle
     robot.stop()
@@ -182,5 +187,5 @@ def turn_to_lundary():
 
 
 def led_indicator():
-    output_color = color_2.color()
+    output_color = color_1.color()
     ev3.light.on(output_color)
