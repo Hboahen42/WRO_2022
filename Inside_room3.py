@@ -49,9 +49,9 @@ def inside_room():
 
     pid_line(0.5,200)
 
-    # robot.stop()
-    # robot.settings(900,900,0,0)
-    # robot.straight(10)
+    robot.stop()
+    robot.settings(900,900,0,0)
+    robot.straight(-1.5)
 
     wait(300)
 
@@ -90,7 +90,7 @@ def water():
     #move back to drop bottle
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(113)
+    robot.straight(110)
     
     #lift drop bottle
     lift(300,-160)
@@ -106,7 +106,7 @@ def water():
     #turn go to out of room
     robot.stop()
     robot.settings(0,0,900,900)
-    robot.turn(100)
+    robot.turn(70)
 
     #move out of room
     robot.stop()

@@ -9,6 +9,7 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 import Inside_room
 import Inside_room2
 import Inside_room3
+import Inside_room4
 
 # This program requires LEGO EV3 MicroPython v2.0 or higher.
 # Click "Open user guide" on the EV3 extension tab for more information.
@@ -23,6 +24,7 @@ right_sensor = ColorSensor(Port.S4)
 color_1 = ColorSensor(Port.S3)
 color_2 = ColorSensor(Port.S2)
 large_motor = Motor(Port.D)
+drop_motor = Motor(Port.A)
 robot = DriveBase(left_motor,right_motor,wheel_diameter=56, axle_track=170)
 
 # Write your program here.
@@ -111,7 +113,7 @@ while True:
         #  b = 46
         robot.stop()
         robot.settings(0,0,5000,5000)
-        robot.turn(46)
+        robot.turn(48)
 
         # #move forward
         robot.stop()
@@ -136,7 +138,7 @@ while True:
         #go back
         robot.stop()
         robot.settings(5000,5000,0,0)
-        robot.straight(-464)
+        robot.straight(-460.5)
 
         # #turn to room line
         robot.stop()
@@ -168,7 +170,7 @@ while True:
         # go back
         robot.stop()
         robot.settings(900,900,0,0)
-        robot.straight(12)
+        robot.straight(9)
 
         robot.stop()
         robot.settings(0,0,900,900)
@@ -237,7 +239,7 @@ while True:
         # go back
         robot.stop()
         robot.settings(900,900,0,0)
-        robot.straight(10)
+        robot.straight(60)
 
         robot.stop()
         robot.settings(0,0,900,900)
@@ -248,12 +250,12 @@ while True:
         if color_2.color() == Color.GREEN:
             Inside_room.led_indicator()
             # water()
-            Inside_room2.water()
+            Inside_room4.water()
             ev3.light.off()
         else:
             Inside_room.led_indicator()
             # game()
-            Inside_room2.game()
+            Inside_room4.game()
             ev3.light.off()
 
             
@@ -333,14 +335,28 @@ while True:
         robot.straight(-40)
 
         robot.stop()
+        drop_motor.run_angle(900,200)
+    
+        robot.stop()
+        drop_motor.run_angle(-900,200)
+
+        robot.stop()
         robot.settings(900,900,0,0)
         robot.straight(40)
+
+
 
         # if basket 2
 
         robot.stop()
         robot.settings(900,900,0,0)
         robot.straight(80)
+
+        robot.stop()
+        drop_motor.run_angle(900,200)
+    
+        robot.stop()
+        drop_motor.run_angle(-900,200)
 
         robot.stop()
         robot.settings(900,900,0,0)
@@ -351,6 +367,12 @@ while True:
         robot.stop()
         robot.settings(900,900,0,0)
         robot.straight(180)
+
+        robot.stop()
+        drop_motor.run_angle(900,200)
+    
+        robot.stop()
+        drop_motor.run_angle(-900,200)
 
         robot.stop()
         robot.settings(900,900,0,0)

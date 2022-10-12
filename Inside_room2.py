@@ -42,17 +42,17 @@ def pid_line(proportional_gain = 1.4,drive_speed = 600):
 
 def inside_room2():
     #pid
-    pid_line(1,200)
+    pid_line(1.15,200)
 
     #move forward
     robot.settings(900,900,0,0)
-    robot.straight(15)
+    robot.straight(10)
     wait(200)
 
     #turn to room
     robot.stop()
     robot.settings(0,0,900,900)
-    robot.turn(97.8)
+    robot.turn(98.8)
 
     #move straight
     robot.stop()
@@ -114,7 +114,7 @@ def game(turn=-65):
     #turn to ball
     robot.stop()
     robot.settings(0,0,900,900)
-    robot.turn(-71.8)
+    robot.turn(-75)
 
     #move to ball
     robot.stop()
@@ -123,7 +123,7 @@ def game(turn=-65):
 
 
     #lift ball
-    lift(350,-180)
+    lift(350,-170)
 
     #move to drop in basket
     robot.stop()
@@ -138,10 +138,10 @@ def game(turn=-65):
     #move to basket
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(-149)
+    robot.straight(-147)
 
     #drop ball
-    lift(350,120)
+    lift(350,110)
 
     #move away from basket
     robot.stop()
