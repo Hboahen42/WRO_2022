@@ -6,6 +6,7 @@ from pybricks.parameters import Port, Stop, Direction, Button, Color
 from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
+from pybricks.iodevices import Ev3devSensor
 import Inside_room
 import Inside_room2
 import Inside_room3
@@ -21,11 +22,13 @@ left_motor = Motor(Port.B)
 right_motor = Motor(Port.C,positive_direction=Direction.COUNTERCLOCKWISE)
 left_sensor = ColorSensor(Port.S1)
 right_sensor = ColorSensor(Port.S4)
-color_1 = ColorSensor(Port.S3)
+color_1 = Ev3devSensor(Port.S3)
 color_2 = ColorSensor(Port.S2)
 large_motor = Motor(Port.D)
 drop_motor = Motor(Port.A)
 robot = DriveBase(left_motor,right_motor,wheel_diameter=56, axle_track=170)
+
+
 
 # Write your program here.
 def pid_line(proportional_gain = 1.05,drive_speed = 600):
@@ -102,92 +105,121 @@ def lift(rotation=160,angle=200):
 
 
 
+
+
+
+
+
 #Write your program here.
 
 while True:
     if Button.CENTER in ev3.buttons.pressed():
         wait(500)
 
-        # turn to bottle
-        #  a = -46
-        #  b = 46
-        robot.stop()
-        robot.settings(0,0,5000,5000)
-        robot.turn(48)
+        # # turn to bottle
+        # #  a = -46
+        # #  b = 46
+        # robot.stop()
+        # robot.settings(0,0,5000,5000)
+        # robot.turn(48)
+
+        # # #move forward
+        # robot.stop()
+        # robot.settings(900,900,0,0)
+        # robot.straight(150)
+
+        # #pid
+        # pid_line(1.05,300)
 
         # #move forward
-        robot.stop()
-        robot.settings(900,900,0,0)
-        robot.straight(150)
+        # robot.settings(600,600,0,0)
+        # robot.straight(60)
 
-        #pid
-        pid_line(1.05,300)
+        # #lift bottle
+        # lift(180,270)
 
-        #move forward
-        robot.settings(600,600,0,0)
-        robot.straight(60)
+        # # #turn to rooms
+        # robot.stop()
+        # robot.settings(0,0,5000,5000)
+        # robot.turn(-34)
 
-        #lift bottle
-        lift(180,270)
+        # #go back
+        # robot.stop()
+        # robot.settings(5000,5000,0,0)
+        # robot.straight(-460.5)
 
-        # #turn to rooms
-        robot.stop()
-        robot.settings(0,0,5000,5000)
-        robot.turn(-34)
-
-        #go back
-        robot.stop()
-        robot.settings(5000,5000,0,0)
-        robot.straight(-460.5)
-
-        # #turn to room line
-        robot.stop()
-        robot.settings(0,0,5000,5000)
-        robot.turn(123)
+        # # #turn to room line
+        # robot.stop()
+        # robot.settings(0,0,5000,5000)
+        # robot.turn(123)
         
-        #pid
-        pid_line2()
+        # #pid
+        # pid_line2()
 
-        #forward
-        wait(50)
+        # #forward
+        # wait(50)
 
-        #pid
-        pid_line()
+        # #pid
+        # pid_line()
 
 
         # #insert room_id here
+        
+        
+        drop = {'left': True, 'right': True, 'mid': False}
+        color = color_1.read('COLOR')
+        print(color)
+        # if (color[0] in range(3,5)) or (color[0] == 13):
 
-        if color_1.color() == Color.GREEN:
-            Inside_room.led_indicator()
-            # game()
-            Inside_room.game()
-            ev3.light.off()
-        else:
-            Inside_room.led_indicator()
-            Inside_room.water()
-            ev3.light.off()
+        #     # game()
+        #     Inside_room.game()
+        #     ev3.light.off()
+        # else:
+        #     for key,value in drop.items():
+        #         print(key)
+        #         if value == True:
+        #             drop[key] = Inside_room.drop_water(water_position=key)
+        #             break
+        #     print(drop)
+        #     ev3.light.off() 
 
-        # go back
-        robot.stop()
-        robot.settings(900,900,0,0)
-        robot.straight(9)
 
-        robot.stop()
-        robot.settings(0,0,900,900)
-        robot.turn(-90)
 
-        pid_line(1,200)
+        # # go back
+        # robot.stop()
+        # robot.settings(900,900,0,0)
+        # robot.straight(17)
 
-        if color_2.color() == Color.GREEN:
-            Inside_room.led_indicator()
-            # water()
-            Inside_room2.water()
-            ev3.light.off()
-        else:
-            Inside_room.led_indicator()
+        # robot.stop()
+        # robot.settings(0,0,900,900)
+        # robot.turn(94)
+
+        # robot.stop()
+        # robot.settings(900,900,0,0)
+        # robot.straight(43.5)
+
+        # robot.stop()
+        # robot.settings(-900,-900,0,0)
+        # robot.straight(-137)
+
+        # #turn to room*
+        # robot.stop()
+        # robot.settings(0,0,900,900)
+        # robot.turn(-97)
+
+        if (color[0] in range(3,5)) or (color[0] == 13):
+
             # game()
             Inside_room2.game()
             ev3.light.off()
+        else:
+            for key,value in drop.items():
+                print(key)
+                if value == True:
+                    drop[key] = Inside_room2.drop_water(water_position=key)
+                    break
+            print(drop)
+            ev3.light.off() 
 
 
         # go back
@@ -226,20 +258,24 @@ while True:
         pid_line()
         wait(50)
 
-        if color_1.color() == Color.GREEN:
-            Inside_room.led_indicator()
+        if (color[0] in range(3,5)) or (color[0] == 13):
+
             # game()
             Inside_room3.game()
             ev3.light.off()
         else:
-            Inside_room.led_indicator()
-            Inside_room3.water()
-            ev3.light.off()
+            for key,value in drop.items():
+                print(key)
+                if value == True:
+                    drop[key] = Inside_room3.drop_water(water_position=key)
+                    break
+            print(drop)
+            ev3.light.off() 
 
         # go back
         robot.stop()
         robot.settings(900,900,0,0)
-        robot.straight(60)
+        robot.straight(50)
 
         robot.stop()
         robot.settings(0,0,900,900)
@@ -250,7 +286,12 @@ while True:
         if color_2.color() == Color.GREEN:
             Inside_room.led_indicator()
             # water()
-            Inside_room4.water()
+            # Inside_room4.water()
+            for key,value in drop.items() :
+                if value == True:
+                    drop[key] = Inside_room4.water(drop)
+                    break
+                
             ev3.light.off()
         else:
             Inside_room.led_indicator()
@@ -259,144 +300,144 @@ while True:
             ev3.light.off()
 
             
-        # go back
-        robot.stop()
-        robot.settings(900,900,0,0)
-        robot.straight(55)
+        # # go back
+        # robot.stop()
+        # robot.settings(900,900,0,0)
+        # robot.straight(55)
 
-        robot.stop()
-        robot.settings(0,0,900,900)
-        robot.turn(-90)
+        # robot.stop()
+        # robot.settings(0,0,900,900)
+        # robot.turn(-90)
 
-        pid_distance(1.4,800,470)
-
-
-        robot.settings(0,0,900,900)
-        robot.turn(35)
-
-        # straight to lundary
-        robot.stop()
-        robot.settings(900,900,0,0)
-        robot.straight(430)
-
-        robot.stop()
-        robot.settings(0,0,900,900)
-        robot.turn(70)
-
-        pid_line(1,300)
-
-        # push lundary
-        robot.stop()
-        robot.settings(700,700,0,0)
-        robot.straight(130)
-
-        # push lundary
-        robot.stop()
-        robot.settings(900,900,0,0)
-        robot.straight(-90)
-
-        robot.stop()
-        robot.settings(0,0,900,900)
-        robot.turn(93.5)
-
-        pid_distance(1.5,200,60)
-
-        robot.stop()
-        left_motor.run_angle(500,40)
+        # pid_distance(1.4,800,470)
 
 
-        print(color_1.color())
+        # robot.settings(0,0,900,900)
+        # robot.turn(35)
 
-        wait (300)
+        # # straight to lundary
+        # robot.stop()
+        # robot.settings(900,900,0,0)
+        # robot.straight(433)
 
-        robot.stop()
-        robot.settings(700,700,0,0)
-        robot.straight(-110)
+        # robot.stop()
+        # robot.settings(0,0,900,900)
+        # robot.turn(70)
 
-        print(color_1.color())
+        # pid_line(1,300)
 
-        wait (300)
+        # # push lundary
+        # robot.stop()
+        # robot.settings(700,700,0,0)
+        # robot.straight(130)
 
-        robot.stop()
-        robot.settings(700,700,0,0)
-        robot.straight(-110)
+        # # push lundary
+        # robot.stop()
+        # robot.settings(900,900,0,0)
+        # robot.straight(-90)
 
-        print(color_1.color())
+        # robot.stop()
+        # robot.settings(0,0,900,900)
+        # robot.turn(93.5)
 
-        wait (300)
+        # pid_distance(1.05,200,60)
 
-        pid_line(0.6,300)
+        # robot.stop()
+        # left_motor.run_angle(500,40)
 
-        # if basket 1
 
-        # push lundary
-        robot.stop()
-        robot.settings(900,900,0,0)
-        robot.straight(-40)
+        # print(color_1.color())
 
-        robot.stop()
-        drop_motor.run_angle(900,200)
+        # wait (300)
+
+        # robot.stop()
+        # robot.settings(700,700,0,0)
+        # robot.straight(-110)
+
+        # print(color_1.color())
+
+        # wait (300)
+
+        # robot.stop()
+        # robot.settings(700,700,0,0)
+        # robot.straight(-110)
+
+        # print(color_1.color())
+
+        # wait (300)
+
+        # pid_line(0.6,300)
+
+        # # if basket 1
+
+        # # push lundary
+        # robot.stop()
+        # robot.settings(900,900,0,0)
+        # robot.straight(-40)
+
+        # robot.stop()
+        # drop_motor.run_angle(900,200)
     
-        robot.stop()
-        drop_motor.run_angle(-900,200)
+        # robot.stop()
+        # drop_motor.run_angle(-900,200)
 
-        robot.stop()
-        robot.settings(900,900,0,0)
-        robot.straight(40)
+        # robot.stop()
+        # robot.settings(900,900,0,0)
+        # robot.straight(40)
 
 
 
-        # if basket 2
+        # # if basket 2
 
-        robot.stop()
-        robot.settings(900,900,0,0)
-        robot.straight(80)
+        # robot.stop()
+        # robot.settings(900,900,0,0)
+        # robot.straight(80)
 
-        robot.stop()
-        drop_motor.run_angle(900,200)
+        # robot.stop()
+        # drop_motor.run_angle(900,200)
     
-        robot.stop()
-        drop_motor.run_angle(-900,200)
+        # robot.stop()
+        # drop_motor.run_angle(-900,200)
 
-        robot.stop()
-        robot.settings(900,900,0,0)
-        robot.straight(-80)
+        # robot.stop()
+        # robot.settings(900,900,0,0)
+        # robot.straight(-80)
 
-        # if basket 3
+        # # if basket 3
 
-        robot.stop()
-        robot.settings(900,900,0,0)
-        robot.straight(180)
+        # robot.stop()
+        # robot.settings(900,900,0,0)
+        # robot.straight(180)
 
-        robot.stop()
-        drop_motor.run_angle(900,200)
+        # robot.stop()
+        # drop_motor.run_angle(900,200)
     
-        robot.stop()
-        drop_motor.run_angle(-900,200)
+        # robot.stop()
+        # drop_motor.run_angle(-900,200)
 
-        robot.stop()
-        robot.settings(900,900,0,0)
-        robot.straight(-180)
+        # robot.stop()
+        # robot.settings(900,900,0,0)
+        # robot.straight(-180)
 
-        robot.stop()
-        robot.settings(900,900,0,0)
-        robot.straight(40)
+        # robot.stop()
+        # robot.settings(900,900,0,0)
+        # robot.straight(40)
 
-        robot.stop()
-        robot.settings(0,0,900,900)
-        robot.turn(90)
+        # robot.stop()
+        # robot.settings(0,0,900,900)
+        # robot.turn(90)
 
-        pid_distance(1.5,200,160)
+        # pid_distance(1.5,200,160)
 
-        robot.stop()
-        robot.settings(900,900,0,0)
-        robot.straight(215)
+        # robot.stop()
+        # robot.settings(900,900,0,0)
+        # robot.straight(215)
 
 
-        # a = 50
-        # b = -50
-        # c = -150
-        # d = 140
-        robot.stop()
-        robot.settings(0,0,900,900)
-        robot.turn(140)
+        # # a = 50
+        # # b = -50
+        # # c = -150
+        # # d = 140
+        # robot.stop()
+        # robot.settings(0,0,900,900)
+        # robot.turn(140)
