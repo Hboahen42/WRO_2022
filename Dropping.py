@@ -44,7 +44,7 @@ def mid_drop():
     #move back to release bottle
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(-170)
+    robot.straight(-160)
 
     #lift remaining water
     lift(300,140)

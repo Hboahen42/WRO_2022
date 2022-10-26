@@ -41,6 +41,39 @@ def pid_line(proportional_gain = 1.4,drive_speed = 600):
 def lift(rotation=160,angle=200):
     large_motor.run_angle(rotation,angle,then=Stop.BRAKE)
 
+def ls_following(proportional_gain = 1.4,drive_speed = 600):
+    while left_sensor.reflection() + right_sensor.reflection() > 30:
+
+        # Calculate the deviation from the threshold.
+
+        deviation = left_sensor.reflection() - 30
+
+        # Calculate the turn rate.
+        turn_rate = proportional_gain * deviation
+
+        # Set the drive base speed and turn rate.
+        robot.drive(drive_speed, turn_rate)
+    robot.stop()
+    left_motor.brake()
+    right_motor.brake()
+
+def rs_following(proportional_gain = 1.4,drive_speed = 600):
+    while left_sensor.reflection() + right_sensor.reflection() > 30:
+
+        # Calculate the deviation from the threshold.
+
+        deviation = 30 - right_sensor.reflection()
+
+        # Calculate the turn rate.
+        turn_rate = proportional_gain * deviation
+
+        # Set the drive base speed and turn rate.
+        robot.stop()
+        right_motor.run(100)
+    robot.stop()
+    left_motor.brake()
+    right_motor.brake()
+
 
 def inside_room():
     #pid
@@ -108,7 +141,7 @@ def game():
     #move to basket
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(-130)
+    robot.straight(-145)
 
     #drop ball
     lift(350,100)
@@ -116,19 +149,22 @@ def game():
     #move away from basket
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(105)
+    robot.straight(138)
 
     #move out of bottle
     robot.stop()
     robot.settings(0,0,900,900)
-    robot.turn(-66)
+    robot.turn(-62)
 
     #out of room
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(300)
+    robot.straight(250)
 
     lift(350,50)
+
+    ls_following(proportional_gain=0, drive_speed=100)
+    rs_following(proportional_gain=0, drive_speed=100)
 
 
 def turn_to_lundary():

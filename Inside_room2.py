@@ -71,12 +71,12 @@ def game(turn=-65):
     #turn to ball
     robot.stop()
     robot.settings(0,0,900,900)
-    robot.turn(-75)
+    robot.turn(-71)
 
     #move to ball
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(-126)
+    robot.straight(-128)
 
 
     #lift ball
@@ -108,7 +108,7 @@ def game(turn=-65):
     #move out of bottle
     robot.stop()
     robot.settings(0,0,900,900)
-    robot.turn(65)
+    robot.turn(68)
 
     #out of room
     robot.stop()
