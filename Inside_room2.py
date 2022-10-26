@@ -51,7 +51,7 @@ def inside_room2():
     #move straight
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(250)
+    robot.straight(300)
 
     turn_to_lundary()
         
@@ -121,11 +121,7 @@ def lift(rotation=160,angle=200):
     large_motor.run_angle(rotation,angle,then=Stop.BRAKE)
 
 
-def turn_to_lundary(): 
-    #move straight
-    robot.stop()
-    robot.settings(900,900,0,0)
-    robot.straight(50)
+def turn_to_lundary():
 
     #turn to bottle
     robot.stop()

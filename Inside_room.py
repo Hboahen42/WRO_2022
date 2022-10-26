@@ -52,7 +52,7 @@ def inside_room():
 
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(4.8)
+    robot.straight(7)
 
     wait(300)
 
@@ -60,12 +60,12 @@ def inside_room():
     #turn to room
     robot.stop()
     robot.settings(0,0,900,900)
-    robot.turn(-97)
+    robot.turn(-94)
 
     #move straight
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(250)
+    robot.straight(300)
 
     turn_to_lundary()
 
@@ -131,16 +131,12 @@ def game():
     lift(350,50)
 
 
-def turn_to_lundary(): 
-    #move straight
-    robot.stop()
-    robot.settings(900,900,0,0)
-    robot.straight(50)
+def turn_to_lundary():
 
     #turn to bottle
     robot.stop()
     robot.settings(0,0,900,900)
-    robot.turn(93.5)
+    robot.turn(94.5)
 
     #move back to pick bottle
     robot.stop()

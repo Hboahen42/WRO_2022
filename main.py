@@ -49,7 +49,7 @@ def pid_line(proportional_gain = 1.05,drive_speed = 600):
 
 
 def ls_following(proportional_gain = 1.4,drive_speed = 600):
-    while left_sensor.reflection() + right_sensor.reflection() > 20:
+    while left_sensor.reflection() + right_sensor.reflection() > 30:
 
         # Calculate the deviation from the threshold.
 
@@ -60,6 +60,23 @@ def ls_following(proportional_gain = 1.4,drive_speed = 600):
 
         # Set the drive base speed and turn rate.
         robot.drive(drive_speed, turn_rate)
+    robot.stop()
+    left_motor.brake()
+    right_motor.brake()
+
+def rs_following(proportional_gain = 1.4,drive_speed = 600):
+    while left_sensor.reflection() + right_sensor.reflection() > 30:
+
+        # Calculate the deviation from the threshold.
+
+        deviation = 30 - right_sensor.reflection()
+
+        # Calculate the turn rate.
+        turn_rate = proportional_gain * deviation
+
+        # Set the drive base speed and turn rate.
+        robot.stop()
+        right_motor.run(100)
     robot.stop()
     left_motor.brake()
     right_motor.brake()
@@ -103,12 +120,58 @@ def say_color():
 def lift(rotation=160,angle=200):
     large_motor.run_angle(rotation,angle,then=Stop.BRAKE)
 
+def move_out_mid_drop(turn=97, straight=220):
 
+    #turn go to out of room
+    robot.stop()
+    robot.settings(0,0,900,900)
+    robot.turn(int(turn))
 
+    #move out of room
+    robot.stop()
+    robot.settings(900,900,0,0)
+    robot.straight(int(straight))
 
+    lift(300,20)
 
+    ls_following(proportional_gain=0, drive_speed=100)
+    rs_following(proportional_gain=0, drive_speed=100)
 
+def move_out_right_drop(turn=70,straight=220):
 
+    #turn go to out of room
+    robot.stop()
+    robot.settings(0,0,900,900)
+    robot.turn(int(turn))
+
+    #move out of room
+    robot.stop()
+    robot.settings(900,900,0,0)
+    robot.straight(straight)
+
+    lift(300,20)
+    
+    ls_following(proportional_gain=0, drive_speed=100)
+    rs_following(proportional_gain=0, drive_speed=100)
+
+    
+
+def move_out_left_drop(turn=122,straight=220):
+
+    #turn go to out of room
+    robot.stop()
+    robot.settings(0,0,900,900)
+    robot.turn(int(turn))
+
+    # move out of room
+    robot.stop()
+    robot.settings(900,900,0,0)
+    robot.straight(straight)
+
+    lift(300,20)
+
+    ls_following(proportional_gain=0, drive_speed=100)
+    rs_following(proportional_gain=0, drive_speed=100)
 
 #Write your program here.
 
@@ -166,46 +229,53 @@ while True:
         # #insert room_id here
         
         
-        drop = {'left': True, 'right': True, 'mid': False}
+        drop = {'left': True, 'right': True, 'mid': True}
         color = color_1.read('COLOR')
         print(color)
-        # if (color[0] in range(3,5)) or (color[0] == 13):
+        if (color[0] in range(3,5)) or (color[0] == 13):
 
-        #     # game()
-        #     Inside_room.game()
-        #     ev3.light.off()
-        # else:
-        #     for key,value in drop.items():
-        #         print(key)
-        #         if value == True:
-        #             drop[key] = Inside_room.drop_water(water_position=key)
-        #             break
-        #     print(drop)
-        #     ev3.light.off() 
+            # game()
+            Inside_room.game()
+            ev3.light.off()
+        else:
+            for key,value in drop.items():
+                print(key)
+                if value == True:
+                    drop[key] = Inside_room.drop_water(water_position=key)
+                    if key == 'mid':
+                        move_out_mid_drop()
+                    elif key == 'right':
+                        move_out_right_drop()
+                    elif key == 'left':
+                        move_out_left_drop()
+                    break
+                    
+            print(drop)
+            ev3.light.off() 
 
 
 
-        # # go back
-        # robot.stop()
-        # robot.settings(900,900,0,0)
-        # robot.straight(17)
+        # go back
+        robot.stop()
+        robot.settings(900,900,0,0)
+        robot.straight(45)
 
-        # robot.stop()
-        # robot.settings(0,0,900,900)
-        # robot.turn(94)
+        robot.stop()
+        robot.settings(0,0,900,900)
+        robot.turn(98.5)
 
-        # robot.stop()
-        # robot.settings(900,900,0,0)
-        # robot.straight(43.5)
+        robot.stop()
+        robot.settings(900,900,0,0)
+        robot.straight(43.5)
 
-        # robot.stop()
-        # robot.settings(-900,-900,0,0)
-        # robot.straight(-137)
+        robot.stop()
+        robot.settings(-900,-900,0,0)
+        robot.straight(-137)
 
-        # #turn to room*
-        # robot.stop()
-        # robot.settings(0,0,900,900)
-        # robot.turn(-97)
+        #turn to room*
+        robot.stop()
+        robot.settings(0,0,900,900)
+        robot.turn(-96)
 
         if (color[0] in range(3,5)) or (color[0] == 13):
 
@@ -217,87 +287,106 @@ while True:
                 print(key)
                 if value == True:
                     drop[key] = Inside_room2.drop_water(water_position=key)
+                    if key == 'mid':
+                        move_out_mid_drop(turn=-95)
+                    elif key == 'right':
+                        move_out_right_drop(turn=-121.5)
+                    elif key == 'left':
+                        move_out_left_drop(turn=-71)
                     break
+                    
             print(drop)
             ev3.light.off() 
 
+        # # 55
+        # # go back
+        # robot.stop()
+        # robot.settings(900,900,0,0)
+        # robot.straight(20)
 
-        # go back
-        robot.stop()
-        robot.settings(900,900,0,0)
-        robot.straight(55)
+        # robot.stop()
+        # robot.settings(0,0,900,900)
+        # robot.turn(-90)
 
-        robot.stop()
-        robot.settings(0,0,900,900)
-        robot.turn(-90)
+        # pid_distance(0.7,800,550)
 
-        pid_distance(0.7,800,550)
-
-        # cross to room
-        robot.stop()
-        robot.settings(900,900,0,0)
-        robot.straight(400)
-
-
-        robot.stop()
-        right_motor.run_angle(500,220)
-
-        robot.stop()
-        left_motor.run_angle(500,220)
-
-        ls_following(0.5,200)
-
-        robot.stop()
-        left_motor.run_angle(500,200)
-
-        robot.stop()
-        right_motor.run_angle(500,200)
+        # # cross to room
+        # robot.stop()
+        # robot.settings(900,900,0,0)
+        # robot.straight(400)
 
 
+        # robot.stop()
+        # right_motor.run_angle(500,220)
 
-        pid_line()
-        wait(50)
+        # robot.stop()
+        # left_motor.run_angle(500,220)
 
-        if (color[0] in range(3,5)) or (color[0] == 13):
+        # ls_following(0.5,200)
 
-            # game()
-            Inside_room3.game()
-            ev3.light.off()
-        else:
-            for key,value in drop.items():
-                print(key)
-                if value == True:
-                    drop[key] = Inside_room3.drop_water(water_position=key)
-                    break
-            print(drop)
-            ev3.light.off() 
+        # robot.stop()
+        # left_motor.run_angle(500,200)
 
-        # go back
-        robot.stop()
-        robot.settings(900,900,0,0)
-        robot.straight(50)
+        # robot.stop()
+        # right_motor.run_angle(500,200)
 
-        robot.stop()
-        robot.settings(0,0,900,900)
-        robot.turn(-90)
 
-        pid_line(0.8,200)
 
-        if color_2.color() == Color.GREEN:
-            Inside_room.led_indicator()
-            # water()
-            # Inside_room4.water()
-            for key,value in drop.items() :
-                if value == True:
-                    drop[key] = Inside_room4.water(drop)
-                    break
-                
-            ev3.light.off()
-        else:
-            Inside_room.led_indicator()
-            # game()
-            Inside_room4.game()
-            ev3.light.off()
+        # pid_line()
+        # wait(50)
+
+        # if (color[0] in range(3,5)) or (color[0] == 13):
+
+        #     # game()
+        #     Inside_room3.game()
+        #     ev3.light.off()
+        # else:
+        #     for key,value in drop.items():
+        #         print(key)
+        #         if value == True:
+        #             drop[key] = Inside_room3.drop_water(water_position=key)
+        #             if key == 'mid':
+        #                 move_out_mid_drop()
+        #             elif key == 'right':
+        #                 move_out_right_drop()
+        #             elif key == 'left':
+        #                 move_out_left_drop()
+        #             break
+                    
+        #     print(drop)
+        #     ev3.light.off()  
+
+        # # go back
+        # robot.stop()
+        # robot.settings(900,900,0,0)
+        # robot.straight(50)
+
+        # robot.stop()
+        # robot.settings(0,0,900,900)
+        # robot.turn(-90)
+
+        # pid_line(0.8,200)
+
+        # if color_2.color() == Color.GREEN:
+        #     for key,value in drop.items():
+        #         print(key)
+        #         if value == True:
+        #             drop[key] = Inside_room4.drop_water(water_position=key)
+        #             if key == 'mid':
+        #                 move_out_mid_drop()
+        #             elif key == 'right':
+        #                 move_out_right_drop()
+        #             elif key == 'left':
+        #                 move_out_left_drop()
+        #             break
+                    
+        #     print(drop)
+        #     ev3.light.off() 
+        # else:
+        #     Inside_room.led_indicator()
+        #     # game()
+        #     Inside_room4.game()
+        #     ev3.light.off()
 
             
         # # go back

@@ -39,7 +39,7 @@ def mid_drop():
     robot.straight(124)
 
     #lift drop bottle
-    lift(300,-160)
+    lift(300,-140)
 
     #move back to release bottle
     robot.stop()
@@ -47,19 +47,8 @@ def mid_drop():
     robot.straight(-170)
 
     #lift remaining water
-    lift(300,160)
+    lift(300,140)
 
-    #turn go to out of room
-    robot.stop()
-    robot.settings(0,0,900,900)
-    robot.turn(95)
-
-    #move out of room
-    robot.stop()
-    robot.settings(900,900,0,0)
-    robot.straight(265)
-
-    lift(300,20)
 
 def right_drop():
 
@@ -78,22 +67,12 @@ def right_drop():
     #move back to release bottle
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(-170)
+    robot.straight(-130)
 
     #lift remaining water
     lift(300,160)
 
-    #turn go to out of room
-    robot.stop()
-    robot.settings(0,0,900,900)
-    robot.turn(70)
 
-    #move out of room
-    robot.stop()
-    robot.settings(900,900,0,0)
-    robot.straight(265)
-
-    lift(300,20)
 
 def left_drop():
 
@@ -117,17 +96,7 @@ def left_drop():
     #lift remaining water
     lift(300,160)
 
-    #turn go to out of room
-    robot.stop()
-    robot.settings(0,0,900,900)
-    robot.turn(122)
 
-    # move out of room
-    robot.stop()
-    robot.settings(900,900,0,0)
-    robot.straight(265)
-
-    lift(300,20)
 
 def drop_water_position(water_position):
     if water_position.lower() == 'left':
