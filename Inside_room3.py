@@ -8,7 +8,6 @@ from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
 from pybricks.iodevices import Ev3devSensor
 import Dropping
-
 # This program requires LEGO EV3 MicroPython v2.0 or higher.
 # Click "Open user guide" on the EV3 extension tab for more information.
 
@@ -42,6 +41,39 @@ def pid_line(proportional_gain = 1.4,drive_speed = 600):
 def lift(rotation=160,angle=200):
     large_motor.run_angle(rotation,angle,then=Stop.BRAKE)
 
+def ls_following(proportional_gain = 1.4,drive_speed = 600):
+    while left_sensor.reflection() + right_sensor.reflection() > 30:
+
+        # Calculate the deviation from the threshold.
+
+        deviation = left_sensor.reflection() - 30
+
+        # Calculate the turn rate.
+        turn_rate = proportional_gain * deviation
+
+        # Set the drive base speed and turn rate.
+        robot.drive(drive_speed, turn_rate)
+    robot.stop()
+    left_motor.brake()
+    right_motor.brake()
+
+def rs_following(proportional_gain = 1.4,drive_speed = 600):
+    while left_sensor.reflection() + right_sensor.reflection() > 30:
+
+        # Calculate the deviation from the threshold.
+
+        deviation = 30 - right_sensor.reflection()
+
+        # Calculate the turn rate.
+        turn_rate = proportional_gain * deviation
+
+        # Set the drive base speed and turn rate.
+        robot.stop()
+        right_motor.run(100)
+    robot.stop()
+    left_motor.brake()
+    right_motor.brake()
+
 
 def inside_room():
     #pid
@@ -53,7 +85,7 @@ def inside_room():
 
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(-1.5)
+    robot.straight(-2)
 
     wait(300)
 
@@ -61,18 +93,18 @@ def inside_room():
     #turn to room
     robot.stop()
     robot.settings(0,0,900,900)
-    robot.turn(-97)
+    robot.turn(-94)
 
     #move straight
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(250)
+    robot.straight(300)
 
     turn_to_lundary()
-        
+
     #lift first lundary
-    lift(300,-250)
-    lift(300,250)
+    lift(300,-280)
+    lift(300,280)
 
 
 def drop_water(water_position):
@@ -85,21 +117,21 @@ def game():
     #turn to ball
     robot.stop()
     robot.settings(0,0,900,900)
-    robot.turn(65)
+    robot.turn(67)
 
     #move to ball
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(-123)
+    robot.straight(-121.5)
 
 
     #lift ball
-    lift(350,-150)
+    lift(350,-170)
 
     #move to drop in basket
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(70)
+    robot.straight(60)
 
     #turn to ball
     robot.stop()
@@ -109,46 +141,40 @@ def game():
     #move to basket
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(-130)
+    robot.straight(-147)
 
     #drop ball
-    lift(350,100)
+    lift(350,110)
 
     #move away from basket
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(105)
+    robot.straight(128)
 
     #move out of bottle
     robot.stop()
     robot.settings(0,0,900,900)
-    robot.turn(-66)
+    robot.turn(-62)
 
     #out of room
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(300)
+    robot.straight(250)
 
     lift(350,50)
 
+    ls_following(proportional_gain=0, drive_speed=100)
+    rs_following(proportional_gain=0, drive_speed=100)
 
-def turn_to_lundary(): 
-    #move straight
-    robot.stop()
-    robot.settings(900,900,0,0)
-    robot.straight(50)
+
+def turn_to_lundary():
 
     #turn to bottle
     robot.stop()
     robot.settings(0,0,900,900)
-    robot.turn(93.5)
+    robot.turn(94.5)
 
     #move back to pick bottle
     robot.stop()
     robot.settings(900,900,0,0)
     robot.straight(-50)
-
-
-def led_indicator():
-    output_color = color_1.color()
-    ev3.light.on(output_color)

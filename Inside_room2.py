@@ -23,6 +23,39 @@ color_2 = ColorSensor(Port.S2)
 large_motor = Motor(Port.D)
 robot = DriveBase(left_motor,right_motor,wheel_diameter=56, axle_track=170)
 
+def ls_following(proportional_gain = 1.4,drive_speed = 600):
+    while left_sensor.reflection() + right_sensor.reflection() > 30:
+
+        # Calculate the deviation from the threshold.
+
+        deviation = left_sensor.reflection() - 30
+
+        # Calculate the turn rate.
+        turn_rate = proportional_gain * deviation
+
+        # Set the drive base speed and turn rate.
+        robot.drive(drive_speed, turn_rate)
+    robot.stop()
+    left_motor.brake()
+    right_motor.brake()
+
+def rs_following(proportional_gain = 1.4,drive_speed = 600):
+    while right_sensor.reflection() > 30:
+
+        # Calculate the deviation from the threshold.
+
+        deviation = 30 - right_sensor.reflection()
+
+        # Calculate the turn rate.
+        turn_rate = proportional_gain * deviation
+
+        # Set the drive base speed and turn rate.
+        robot.stop()
+        right_motor.run(100)
+    robot.stop()
+    left_motor.brake()
+    right_motor.brake()
+
 
 
 def pid_line(proportional_gain = 1.4,drive_speed = 600):
@@ -51,13 +84,13 @@ def inside_room2():
     #move straight
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(300)
+    robot.straight(280)
 
     turn_to_lundary()
         
     #lift first lundary
-    lift(300,-250)
-    lift(300,250)
+    lift(300,-280)
+    lift(300,280)
 
 
 def drop_water(water_position):
@@ -85,7 +118,7 @@ def game(turn=-65):
     #move to drop in basket
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(79)
+    robot.straight(70)
 
     #turn to ball
     robot.stop()
@@ -117,6 +150,9 @@ def game(turn=-65):
 
     lift(350,50)
 
+    ls_following(proportional_gain=0, drive_speed=100)
+    rs_following(proportional_gain=0, drive_speed=100)
+
 def lift(rotation=160,angle=200):
     large_motor.run_angle(rotation,angle,then=Stop.BRAKE)
 
@@ -131,7 +167,7 @@ def turn_to_lundary():
     #move back to pick bottle
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(-50)
+    robot.straight(-40 )
 
 
 def led_indicator():

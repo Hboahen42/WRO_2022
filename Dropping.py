@@ -39,12 +39,12 @@ def mid_drop():
     robot.straight(124)
 
     #lift drop bottle
-    lift(300,-140)
+    lift(300,-170)
 
     #move back to release bottle
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(-160)
+    robot.straight(-140)
 
     #lift remaining water
     lift(300,140)
@@ -62,15 +62,15 @@ def right_drop():
     robot.straight(110)
     
     #lift drop bottle
-    lift(300,-160)
+    lift(300,-170)
 
     #move back to release bottle
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(-130)
+    robot.straight(-115)
 
     #lift remaining water
-    lift(300,160)
+    lift(300,170)
 
 
 
@@ -83,10 +83,10 @@ def left_drop():
     #move back to drop bottle
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(111)
+    robot.straight(110)
     
     #lift drop bottle
-    lift(300,-160)
+    lift(300,-170)
 
     #move back to release bottle
     robot.stop()
@@ -94,7 +94,7 @@ def left_drop():
     robot.straight(-135)
 
     #lift remaining water
-    lift(300,160)
+    lift(300,170)
 
 
 

@@ -42,34 +42,28 @@ def pid_line(proportional_gain = 1.4,drive_speed = 600):
     right_motor.brake()
 
 def inside_room2():
-    #pid
-    pid_line(1.15,200)
 
-    #move forward
-    robot.settings(900,900,0,0)
-    robot.straight(13)
-    wait(200)
-
-    #turn to room
-    robot.stop()
-    robot.settings(0,0,900,900)
-    robot.turn(95)
+    # #turn to room
+    # robot.stop()
+    # robot.settings(0,0,900,900)
+    # robot.turn(99)
 
     #move straight
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(250)
+    robot.straight(280)
 
     turn_to_lundary()
         
     #lift first lundary
-    lift(300,-250)
-    lift(300,250)
+    lift(300,-280)
+    lift(300,280)
 
 
 def drop_water(water_position):
     inside_room2()
     return(Dropping.drop_water_position(water_position))
+
 
 def game(turn=-65):
     inside_room2()
@@ -77,7 +71,7 @@ def game(turn=-65):
     #turn to ball
     robot.stop()
     robot.settings(0,0,900,900)
-    robot.turn(-75)
+    robot.turn(-65)
 
     #move to ball
     robot.stop()
@@ -91,12 +85,12 @@ def game(turn=-65):
     #move to drop in basket
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(79)
+    robot.straight(70)
 
     #turn to ball
     robot.stop()
     robot.settings(0,0,900,900)
-    robot.turn(-95)
+    robot.turn(-97)
 
     #move to basket
     robot.stop()
@@ -114,7 +108,7 @@ def game(turn=-65):
     #move out of bottle
     robot.stop()
     robot.settings(0,0,900,900)
-    robot.turn(65)
+    robot.turn(68)
 
     #out of room
     robot.stop()
@@ -127,11 +121,7 @@ def lift(rotation=160,angle=200):
     large_motor.run_angle(rotation,angle,then=Stop.BRAKE)
 
 
-def turn_to_lundary(): 
-    #move straight
-    robot.stop()
-    robot.settings(900,900,0,0)
-    robot.straight(50)
+def turn_to_lundary():
 
     #turn to bottle
     robot.stop()

@@ -81,7 +81,7 @@ def inside_room():
     robot.settings(900,900,0,0)
     robot.straight(50)
 
-    pid_line(0.5,200)
+    pid_line(0.1,200)
 
     robot.stop()
     robot.settings(900,900,0,0)
@@ -103,8 +103,8 @@ def inside_room():
     turn_to_lundary()
 
     #lift first lundary
-    lift(300,-250)
-    lift(300,250)
+    lift(300,-280)
+    lift(300,280)
 
 
 def drop_water(water_position):
@@ -117,21 +117,21 @@ def game():
     #turn to ball
     robot.stop()
     robot.settings(0,0,900,900)
-    robot.turn(65)
+    robot.turn(67)
 
     #move to ball
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(-123)
+    robot.straight(-122.5)
 
 
     #lift ball
-    lift(350,-150)
+    lift(350,-170)
 
     #move to drop in basket
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(70)
+    robot.straight(60)
 
     #turn to ball
     robot.stop()
@@ -144,17 +144,17 @@ def game():
     robot.straight(-145)
 
     #drop ball
-    lift(350,100)
+    lift(350,110)
 
     #move away from basket
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(138)
+    robot.straight(128)
 
     #move out of bottle
     robot.stop()
     robot.settings(0,0,900,900)
-    robot.turn(-62)
+    robot.turn(-65)
 
     #out of room
     robot.stop()

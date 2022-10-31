@@ -35,7 +35,7 @@ robot = DriveBase(left_motor,right_motor,wheel_diameter=56, axle_track=170)
 
 def basket_scanning():
 
-    basket_lundary_color = {'BLACK':[3,11,12,13,14,15,16,17],'RED':[1,7,8,9,10],'YELLOW':[5,6]}
+    basket_lundary_color = {'BLACK':[0,3,11,12,13,14,15,16,17],'RED':[1,7,8,9,10],'YELLOW':[5,6]}
     
     wait(350)   
     basket_color_1 = color_1.read('COLOR')[0]
@@ -53,20 +53,32 @@ def basket_scanning():
 
 
 def lundary_sorting(basket_colors):
-    while color_2.color() is not None :
+    basket_done = {'basket_1_done': False, 'basket_2_done': False, 'basket_3_done': False}    
+    # for key,value in basket_done.items():
+    #     if value == False:
+    for x in range(4):
         for key,value in basket_colors.items():
             lundary_color = str(color_2.color()).split(".")[1]
-            print(lundary_color)
-            print(key)
+
             if str(value) == str(lundary_color):
                 if key == 'basket_1':
-                    move_to_basket_1()
+                    basket_done['basket_1_done'] = move_to_basket_1()
+                    break
                 elif key == 'basket_2':
-                    move_to_basket_2()
+                    basket_done['basket_2_done'] = move_to_basket_2()
+                    break
                 elif key == 'basket_3':
-                    move_to_basket_3()
-                break
-            wait(300)
+                    basket_done['basket_3_done'] = move_to_basket_3()
+                    break
+                # elif (lundary_color is not RED) or (lundary_color is not YELLOW) or (lundary_color is not BLACK):
+                #     robot.stop()
+                #     drop_motor.run_angle(900,200)
+
+                #     robot.stop()
+                #     drop_motor.run_angle(-900,200)
+                #     break
+
+            wait(100)
         
         
 
@@ -87,6 +99,8 @@ def move_to_basket_3():
     robot.settings(900,900,0,0)
     robot.straight(40)
 
+    return True
+
 def move_to_basket_2():
 
     robot.stop()
@@ -103,11 +117,13 @@ def move_to_basket_2():
     robot.settings(900,900,0,0)
     robot.straight(-80)
 
+    return True
+
 def move_to_basket_1():
 
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(190)
+    robot.straight(195)
 
     robot.stop()
     drop_motor.run_angle(900,200)
@@ -117,6 +133,8 @@ def move_to_basket_1():
 
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(-190)
+    robot.straight(-195)
+    
+    return True
 
 
