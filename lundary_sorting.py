@@ -53,32 +53,40 @@ def basket_scanning():
 
 
 def lundary_sorting(basket_colors):
-    basket_done = {'basket_1_done': False, 'basket_2_done': False, 'basket_3_done': False}    
+    basket_done = {'basket_1_done': False, 'basket_2_done': False, 'basket_3_done': False}
     # for key,value in basket_done.items():
     #     if value == False:
-    for x in range(4):
-        for key,value in basket_colors.items():
-            lundary_color = str(color_2.color()).split(".")[1]
+    # for x in range(4):
+    x = 1
+    
+    while x <= len(basket_colors):
+        for k,v in basket_done.items():
+            for key,value in basket_colors.items():
+                lundary_color = str(color_2.color()).split(".")[1]
+                if str(value) == str(lundary_color):
+                    if (key == 'basket_1') and (k == 'basket_1_done' and v == False) :
+                        basket_done['basket_1_done'] = move_to_basket_1()
+                        break
+                        # move_to_basket_1()
+                    elif key == 'basket_2' and (k == 'basket_2_done' and v == False):
+                        basket_done['basket_2_done'] = move_to_basket_2()
+                        break
+                        # move_to_basket_2()
+                    elif key == 'basket_3' and (k == 'basket_3_done' and v == False):
+                        basket_done['basket_3_done'] = move_to_basket_3()
+                        break
+                        # move_to_basket_3()
+                        # elif (lundary_color is not RED) or (lundary_color is not YELLOW) or (lundary_color is not BLACK):
+                        #     robot.stop()
+                        #     drop_motor.run_angle(900,200)
 
-            if str(value) == str(lundary_color):
-                if key == 'basket_1':
-                    basket_done['basket_1_done'] = move_to_basket_1()
-                    break
-                elif key == 'basket_2':
-                    basket_done['basket_2_done'] = move_to_basket_2()
-                    break
-                elif key == 'basket_3':
-                    basket_done['basket_3_done'] = move_to_basket_3()
-                    break
-                # elif (lundary_color is not RED) or (lundary_color is not YELLOW) or (lundary_color is not BLACK):
-                #     robot.stop()
-                #     drop_motor.run_angle(900,200)
+                        #     robot.stop()
+                        #     drop_motor.run_angle(-900,200)
+                        #     break
+                wait(100)    
+        print(basket_done)
+        x += 1
 
-                #     robot.stop()
-                #     drop_motor.run_angle(-900,200)
-                #     break
-
-            wait(100)
         
         
 

@@ -520,7 +520,7 @@ while True:
         pid_distance(1.05,200,80)
 
         basket_colors = {'basket_1': None, 'basket_2': None, 'basket_3': None}
-        print(basket_colors)
+        # print(basket_colors)
 
         basket_colors['basket_1'] = lundary_sorting.basket_scanning()
         
@@ -540,7 +540,7 @@ while True:
 
         pid_line(0.4,300)
 
-        print(basket_colors)
+        # print(basket_colors)
 
         lundary_sorting.lundary_sorting(basket_colors)
         
