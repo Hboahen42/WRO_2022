@@ -52,6 +52,7 @@ def basket_scanning():
 
 
 
+
 def lundary_sorting(basket_colors):
     basket_done = {'basket_1_done': False, 'basket_2_done': False, 'basket_3_done': False}
     # for key,value in basket_done.items():
@@ -75,20 +76,21 @@ def lundary_sorting(basket_colors):
                     elif key == 'basket_3' and (k == 'basket_3_done' and v == False):
                         basket_done['basket_3_done'] = move_to_basket_3()
                         break
-                        # move_to_basket_3()
-                        # elif (lundary_color is not RED) or (lundary_color is not YELLOW) or (lundary_color is not BLACK):
-                        #     robot.stop()
-                        #     drop_motor.run_angle(900,200)
+                # else:
+                #     out_of_basket_color()                     
 
-                        #     robot.stop()
-                        #     drop_motor.run_angle(-900,200)
-                        #     break
-                wait(100)    
+                wait(100)
+
         print(basket_done)
         x += 1
 
         
-        
+def out_of_basket_color():
+    robot.stop()
+    drop_motor.run_angle(900,200)
+
+    robot.stop()
+    drop_motor.run_angle(-900,200)     
 
 def move_to_basket_3():
 
