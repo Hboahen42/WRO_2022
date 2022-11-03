@@ -173,7 +173,22 @@ def enter_room_a(straight_value=7,turn_value=-94):
     robot.settings(900,900,0,0)
     robot.straight(300)
 
-def turn_to_lundary(turn_value=94.5):
+def enter_room_b(straight_value=-142):
+    robot.stop()
+    robot.settings(-900,-900,0,0)
+    robot.straight(straight_value)
+
+    #turn to room*
+    robot.stop()
+    robot.settings(0,0,900,900)
+    robot.turn(-94)
+
+    #move straight
+    robot.stop()
+    robot.settings(900,900,0,0)
+    robot.straight(280)
+
+def turn_to_lundary(turn_value=94.5,straight_value=-50):
 
     #turn to bottle
     robot.stop()
@@ -183,13 +198,13 @@ def turn_to_lundary(turn_value=94.5):
     #move back to pick bottle
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(-50)
+    robot.straight(straight_value)
 
     #lift first lundary
     lift_up()
     lift_down()
 
-def play_game(turn_to_ball=-122.5,turn_to_basket=95,turn_out_of_room=-65):
+def play_game_a(move_to_ball=-122.5,turn_to_basket=95,turn_out_of_room=-65):
 
     
     #turn to ball
@@ -200,7 +215,7 @@ def play_game(turn_to_ball=-122.5,turn_to_basket=95,turn_out_of_room=-65):
     #move to ball
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(turn_to_ball)
+    robot.straight(move_to_ball)
 
 
     #lift ball
@@ -243,3 +258,74 @@ def play_game(turn_to_ball=-122.5,turn_to_basket=95,turn_out_of_room=-65):
 
     ls_following(proportional_gain=0, drive_speed=100)
     rs_following(proportional_gain=0, drive_speed=100)
+
+def play_game_b(turn_to_ball=-65, move_to_ball=-126,turn_to_basket=-97,turn_out_of_room=68):
+    inside_room2()
+    
+    #turn to ball
+    robot.stop()
+    robot.settings(0,0,900,900)
+    robot.turn(turn_to_ball)
+
+    #move to ball
+    robot.stop()
+    robot.settings(900,900,0,0)
+    robot.straight(move_to_ball)
+
+
+    #lift ball
+    lift(350,-170)
+
+    #move to drop in basket
+    robot.stop()
+    robot.settings(900,900,0,0)
+    robot.straight(70)
+
+    #turn to ball
+    robot.stop()
+    robot.settings(0,0,900,900)
+    robot.turn(turn_to_basket)
+
+    #move to basket
+    robot.stop()
+    robot.settings(900,900,0,0)
+    robot.straight(-147)
+
+    #drop ball
+    lift(350,110)
+
+    #move away from basket
+    robot.stop()
+    robot.settings(900,900,0,0)
+    robot.straight(125)
+
+    #move out of bottle
+    robot.stop()
+    robot.settings(0,0,900,900)
+    robot.turn(turn_out_of_room)
+
+    #out of room
+    robot.stop()
+    robot.settings(900,900,0,0)
+    robot.straight(250)
+
+    
+    lift_down()
+
+    ls_following(proportional_gain=0, drive_speed=100)
+    rs_following(proportional_gain=0, drive_speed=100)
+
+
+def push_laundry_blocks():
+    pid_line(1,300)
+
+    # push lundary
+    robot.stop()
+    robot.settings(700,700,0,0)
+    robot.straight(130)
+
+    # push lundary
+    robot.stop()
+    robot.settings(900,900,0,0)
+    robot.straight(-80)
+

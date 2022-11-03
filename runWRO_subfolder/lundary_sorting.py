@@ -23,6 +23,22 @@ def basket_scanning():
     return basket_color_1
 
 
+   
+
+    pid_distance(1.05,200,80)
+
+def backwards_basket_scanning():
+    robot.stop()
+    robot.settings(0,0,900,900)
+    robot.turn(93.5)
+
+    robot.stop()
+    robot.settings(900,900,0,0)
+    robot.straight(-130)
+
+    basket_color_1 = str(color_1.color()).split(".")[1]
+
+    return basket_color_1
 
 
 

@@ -1,6 +1,7 @@
 #!/usr/bin/env pybricks-micropython
 from runWRO_subfolder.variable_initiation import *
-from runWRO_subfolder import inside_room1,inside_room2,inside_room3,inside_room4,lundary_sorting,dropping_water,starting_room
+from runWRO_subfolder import (inside_room3,inside_room4,
+                                lundary_sorting,dropping_water,starting_room,move_to_next_room)
 
 # Write your program here.
 
@@ -106,19 +107,19 @@ while True:
         starting_room.start_at_yellow_room()
 
         drop_status = {'left': True, 'right': True, 'mid': True}
+
         color = str(color_1.color()).split(".")[1]
         print(color)
         if (color == 'GREEN'):
 
             enter_room_a()
             turn_to_lundary()
-            play_game()
+            play_game_a()
 
         elif (color == 'WHITE'):
             enter_room_a()
             turn_to_lundary()
             for key,value in drop_status.items():
-                print(key)
                 if value == True:
                     drop_status[key] = dropping_water.drop_water_position(water_position=key)
                     if key == 'mid':
@@ -128,256 +129,106 @@ while True:
                     elif key == 'left':
                         move_out_left_drop(straight=210)
                     break
-                
-                    
-        # #     print(drop)
-        # #     ev3.light.off()
- 
-        
+        print(drop_status)
 
+        move_to_next_room.move_to_blue_room()
 
+        color = str(color_1.color()).split(".")[1]
+        print(color)
 
-        # # # # go back
-        # # robot.stop()
-        # # robot.settings(900,900,0,0)
-        # # robot.straight(70)
+        if (color == 'GREEN'):
+            enter_room_b()
+            turn_to_lundary(turn_value=-95,straight_value=-40)
+            play_game_b(turn_to_ball=-71,turn_to_basket=-95,turn_out_of_room=68)
 
-        # # robot.stop()
-        # # robot.settings(0,0,900,900)
-        # # robot.turn(94.5)
+        elif (color == 'WHITE'):
+            enter_room_b()
+            turn_to_lundary(turn_value=-95,straight_value=-40)
+            for key,value in drop_status.items():
+                if value == True:
+                    drop_status[key] = dropping_water.drop_water_position(water_position=key)
+                    if key == 'mid':
+                        move_out_mid_drop(turn=-97, straight=210 )
+                    elif key == 'right':
+                        move_out_right_drop(turn=-123)
+                    elif key == 'left':
+                        move_out_left_drop(turn=-71, straight=210)
+                    break
+        print(drop_status)  
 
-        # # ls_following(proportional_gain=0.7,drive_speed=100)
-        # # wait(50)
+        move_to_next_room.move_to_green_room()
 
-        # # robot.stop()
-        # # robot.settings(900,900,0,0)
-        # # robot.straight(7)
+        color = str(color_1.color()).split(".")[1]
+        print(color)
+        if (color == 'GREEN'):
 
-        # # color2 = color_1.read('COLOR')
-        # # print(color2)
+            enter_room_a(straight_value=-2)
+            turn_to_lundary()
+            play_game_a(move_to_ball=-121.5,turn_out_of_room=-62)
 
-        # # robot.stop()
-        # # robot.settings(-900,-900,0,0)
-        # # robot.straight(-142)
+        elif (color == 'WHITE'):
+            enter_room_a()
+            turn_to_lundary()
+            for key,value in drop_status.items():
+                if value == True:
+                    drop_status[key] = dropping_water.drop_water_position(water_position=key)
+                    if key == 'mid':
+                        move_out_mid_drop()
+                    elif key == 'right':
+                        move_out_right_drop(straight=200)
+                    elif key == 'left':
+                        move_out_left_drop(straight=210)
+                    break
+        print(drop_status)
 
-        # # #turn to room*
-        # # robot.stop()
-        # # robot.settings(0,0,900,900)
-        # # robot.turn(-94)
+        move_to_next_room.move_to_red_room()
 
-        # # if (color2[0] in range(0,5)) or (color2[0] in range(11,14)):
+        color = str(color_1.color()).split(".")[1]
+        print(color)
 
-        # #     # game()
-        # #     Inside_room2.game()
-        # #     ev3.light.off()
-        # # elif (color2[0] in range (14,19)):
-            
-        # #     for key,value in drop.items():
-        # #         print(key)
-        # #         if value == True:
-        # #             drop[key] = inside_room2.drop_water(water_position=key)
-        # #             if key == 'mid':
-        # #                 move_out_mid_drop(turn=-97, straight=210 )
-        # #             elif key == 'right':
-        # #                 move_out_right_drop(turn=-123)
-        # #             elif key == 'left':
-        # #                 move_out_left_drop(turn=-71, straight=210)
-        # #             break
-                    
-        # #     print(drop)
-        # #     ev3.light.off()
+        if (color == 'GREEN'):
+            enter_room_b(straight_value=-144)
+            turn_to_lundary(turn_value=-95,straight_value=-50)
+            play_game_b(turn_to_ball=-71,turn_to_basket=-95,turn_out_of_room=68)
 
-        # # # 55
-        # # # go back
-        # # robot.stop()
-        # # robot.settings(900,900,0,0)
-        # # robot.straight(45)
-
-        # # robot.stop()
-        # # robot.settings(0,0,900,900)
-        # # robot.turn(-90)
-
-        
-
-        # # pid_line(proportional_gain= 0.6, drive_speed=200)
-
-        # # robot.stop()
-        # # robot.settings(900,900,0,0)
-        # # robot.straight(45)
-
-        # # pid_line(proportional_gain= 0.1, drive_speed=200)
-
-        # # robot.stop()
-        # # right_motor.run_angle(500,270)
-
-        # # robot.stop()
-        # # robot.settings(900,900,0,0)
-        # # robot.straight(45)
-
-        # # robot.stop()
-        # # left_motor.run_angle(500,274.8)
-
-
-        # # ls_following(proportional_gain=0, drive_speed=500)
-
-        # # robot.stop()
-        # # robot.settings(900,900,0,0)
-        # # robot.straight(35)
-
-        # # robot.stop()
-        # # robot.settings(0,0,900,900)
-        # # robot.turn(90)
-
-        # # pid_line(proportional_gain= 0.6, drive_speed=200)
-
-        # # robot.stop()
-        # # robot.settings(900,900,0,0)
-        # # robot.straight(45)
-
-        # # robot.stop()
-        # # robot.settings(0,0,900,900)
-        # # robot.turn(-90)
-
-        # # pid_line(proportional_gain= 0.1, drive_speed=200)
+        elif (color == 'WHITE'):
+            enter_room_b(straight_value=-144)
+            turn_to_lundary(turn_value=-95,straight_value=-50)
+            for key,value in drop_status.items():
+                if value == True:
+                    drop_status[key] = dropping_water.drop_water_position(water_position=key)
+                    if key == 'mid':
+                        move_out_mid_drop(turn=-97)
+                    elif key == 'right':
+                        move_out_right_drop(turn=-121)
+                    elif key == 'left':
+                        move_out_left_drop(turn=-71, straight=200)
+                    break
+        print(drop_status)
 
         
+        move_to_next_room.move_to_laundry_basket()
 
-        # # color = color_1.read('COLOR')
-        # # print(color)
-        # # if (color[0] in range(0,5)) or (color[0] in range(11,14)):
+        push_laundry_blocks()
 
-        # #     # game()
-        # #     Inside_room3.game()
-        # #     ev3.light.off()
-        # # elif (color[0]in range (14,19)):
-        # #     for key,value in drop.items():
-        # #         print(key)
-        # #         if value == True:
-        # #             drop[key] = inside_room3.drop_water(water_position=key)
-        # #             if key == 'mid':
-        # #                 move_out_mid_drop()
-        # #             elif key == 'right':
-        # #                 move_out_right_drop(straight=200)
-        # #             elif key == 'left':
-        # #                 move_out_left_drop(straight=210)
-        # #             break
-                    
-        # #     print(drop)
-        # #     ev3.light.off()
+        basket_colors = {'basket_1': None, 'basket_2': None, 'basket_3': None}
+        print(basket_colors)
 
-        # #  # go back
-        # # robot.stop()
-        # # robot.settings(900,900,0,0)
-        # # robot.straight(70)
-
-        # # robot.stop()
-        # # robot.settings(0,0,900,900)
-        # # robot.turn(94.5)
-
-        # # ls_following(proportional_gain=1,drive_speed=100)
-        # # wait(50)
-
-        # # robot.stop()
-        # # robot.settings(900,900,0,0)
-        # # robot.straight(7)
-
-        # # color2 = color_1.read('COLOR')
-        # # print(color2)
-
-        # # robot.stop()
-        # # robot.settings(-900,-900,0,0)
-        # # robot.straight(-144)
-
-        # # #turn to room*
-        # # robot.stop()
-        # # robot.settings(0,0,900,900)
-        # # robot.turn(-94)
-
-        # # if (color2[0] in range(0,5)) or (color2[0] in range(11,14)):
-
-        # #     # game()
-        # #     Inside_room4.game()
-        # #     ev3.light.off()
-        # # elif (color2[0] in range (14,19)):
-            
-        # #     for key,value in drop.items():
-        # #         print(key)
-        # #         if value == True:
-        # #             drop[key] = inside_room4.drop_water(water_position=key)
-        # #             if key == 'mid':
-        # #                 move_out_mid_drop(turn=-97)
-        # #             elif key == 'right':
-        # #                 move_out_right_drop(turn=-121)
-        # #             elif key == 'left':
-        # #                 move_out_left_drop(turn=-71,straight=200)
-        # #             break
-                    
-        # #     print(drop)
-        # #     ev3.light.off()
-
-            
-        # # # go back
-        # # robot.stop()
-        # # robot.settings(900,900,0,0)
-        # # robot.straight(49)
-
-        # # robot.stop()
-        # # robot.settings(0,0,900,900)
-        # # robot.turn(-96)
-
-        # # pid_distance(0.25,800,470)
-
-
-        # # robot.settings(0,0,900,900)
-        # # robot.turn(38)
-
-        # # ls_following(proportional_gain=0, drive_speed=300)
-
-        # # # straight to lundary
-        # # robot.stop()
-        # # robot.settings(900,900,0,0)
-        # # robot.straight(15)
-
-        # # robot.stop()
-        # # robot.settings(0,0,900,900)
-        # # robot.turn(60)
-
-        # # pid_line(1,300)
-
-        # # # push lundary
-        # # robot.stop()
-        # # robot.settings(700,700,0,0)
-        # # robot.straight(130)
-
-        # # # push lundary
-        # # robot.stop()
-        # # robot.settings(900,900,0,0)
-        # # robot.straight(-80)
-
-        # # robot.stop()
-        # # robot.settings(0,0,900,900)
-        # # robot.turn(93.5)
-
-        # # pid_distance(1.05,200,80)
-
-        # # basket_colors = {'basket_1': None, 'basket_2': None, 'basket_3': None}
-        # # # print(basket_colors)
-
-        # # basket_colors['basket_1'] = lundary_sorting.basket_scanning()
+        # basket_colors['basket_1'] = lundary_sorting.basket_scanning()
         
-        # # robot.stop()
-        # # robot.settings(700,700,0,0)
-        # # robot.straight(-130)
+        # robot.stop()
+        # robot.settings(700,700,0,0)
+        # robot.straight(-130)
 
         
-        # # basket_colors['basket_2'] = lundary_sorting.basket_scanning()
+        # basket_colors['basket_2'] = lundary_sorting.basket_scanning()
 
-        # # robot.stop()
-        # # robot.settings(700,700,0,0)
-        # # robot.straight(-110)
+        # robot.stop()
+        # robot.settings(700,700,0,0)
+        # robot.straight(-110)
 
         
-        # # basket_colors['basket_3'] = lundary_sorting.basket_scanning()
+        # basket_colors['basket_3'] = lundary_sorting.basket_scanning()                           
 
         # # pid_line(0.4,300)
 
