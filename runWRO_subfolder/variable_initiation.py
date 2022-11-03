@@ -7,7 +7,9 @@ from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
 from pybricks.iodevices import Ev3devSensor
-import Dropping
+
+ 
+
 # This program requires LEGO EV3 MicroPython v2.0 or higher.
 # Click "Open user guide" on the EV3 extension tab for more information.
 
@@ -18,11 +20,13 @@ left_motor = Motor(Port.B)
 right_motor = Motor(Port.C,positive_direction=Direction.COUNTERCLOCKWISE)
 left_sensor = ColorSensor(Port.S1)
 right_sensor = ColorSensor(Port.S4)
-color_1 = Ev3devSensor(Port.S3)
+color_1 = ColorSensor(Port.S3)
 color_2 = ColorSensor(Port.S2)
 large_motor = Motor(Port.D)
+drop_motor = Motor(Port.A)
 robot = DriveBase(left_motor,right_motor,wheel_diameter=56, axle_track=170)
-def pid_line(proportional_gain = 1.4,drive_speed = 600):
+
+def pid_line(proportional_gain = 1.05,drive_speed = 600):
     while left_sensor.reflection() + right_sensor.reflection() > 20:
 
         # Calculate the deviation from the threshold.
@@ -35,11 +39,9 @@ def pid_line(proportional_gain = 1.4,drive_speed = 600):
         # Set the drive base speed and turn rate.
         robot.drive(drive_speed, turn_rate)
     robot.stop()
-    left_motor.brake()
-    right_motor.brake()
+    left_motor.stop()
+    right_motor.stop()
 
-def lift(rotation=160,angle=200):
-    large_motor.run_angle(rotation,angle,then=Stop.BRAKE)
 
 def ls_following(proportional_gain = 1.4,drive_speed = 600):
     while left_sensor.reflection() + right_sensor.reflection() > 30:
@@ -57,8 +59,40 @@ def ls_following(proportional_gain = 1.4,drive_speed = 600):
     left_motor.brake()
     right_motor.brake()
 
+def ls_following2(proportional_gain = 1.4,drive_speed = 600):
+    while (right_sensor.color() is not Color.BLACK):
+
+        # Calculate the deviation from the threshold.
+
+        deviation = left_sensor.reflection() - 30
+
+        # Calculate the turn rate.
+        turn_rate = proportional_gain * deviation
+
+        # Set the drive base speed and turn rate.
+        robot.drive(drive_speed, turn_rate)
+    robot.stop()
+    left_motor.brake()
+    right_motor.brake()
+
+def rs_following2(proportional_gain = 1.4,drive_speed = 600):
+    while right_sensor.reflection() > 20:
+
+        # Calculate the deviation from the threshold.
+
+        deviation = left_sensor.reflection() - 30
+
+        # Calculate the turn rate.
+        turn_rate = proportional_gain * deviation
+
+        # Set the drive base speed and turn rate.
+        robot.drive(drive_speed, turn_rate)
+    robot.stop()
+    left_motor.brake()
+    right_motor.brake()
+
 def rs_following(proportional_gain = 1.4,drive_speed = 600):
-    while left_sensor.reflection() + right_sensor.reflection() > 30:
+    while right_sensor.reflection() > 30:
 
         # Calculate the deviation from the threshold.
 
@@ -74,8 +108,47 @@ def rs_following(proportional_gain = 1.4,drive_speed = 600):
     left_motor.brake()
     right_motor.brake()
 
+    
 
-def inside_room():
+def pid_distance(proportional_gain = 1.4,drive_speed = 600, distance = 20):
+    robot.reset()
+    while robot.distance() <= distance:
+
+        # Calculate the deviation from the threshold.
+
+        deviation = right_sensor.reflection() - left_sensor.reflection()
+
+        # Calculate the turn rate.
+        turn_rate = proportional_gain * deviation
+
+        # Set the drive base speed and turn rate.
+        robot.drive(drive_speed, turn_rate)
+    robot.stop()
+
+
+def pid_line2(proportional_gain = 1.05,drive_speed = 600):
+    while left_sensor.reflection() + right_sensor.reflection() > 20:
+
+        # Calculate the deviation from the threshold.
+
+        deviation = right_sensor.reflection() - left_sensor.reflection()
+
+        # Calculate the turn rate.
+        turn_rate = proportional_gain * deviation
+
+        # Set the drive base speed and turn rate.
+        robot.drive(drive_speed, turn_rate)
+
+def lift(rotation=160,angle=200):
+    large_motor.run_angle(rotation,angle,then=Stop.BRAKE)
+
+def lift_up():
+    large_motor.run_until_stalled(speed=-500,then=Stop.BRAKE,duty_limit=30)
+
+def lift_down():
+    large_motor.run_until_stalled(speed=500,then=Stop.BRAKE,duty_limit=30)
+
+def enter_room_a(straight_value=7,turn_value=-94):
     #pid
     robot.stop()
     robot.settings(900,900,0,0)
@@ -85,7 +158,7 @@ def inside_room():
 
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(7)
+    robot.straight(straight_value)
 
     wait(300)
 
@@ -93,26 +166,31 @@ def inside_room():
     #turn to room
     robot.stop()
     robot.settings(0,0,900,900)
-    robot.turn(-94)
+    robot.turn(turn_value)
 
     #move straight
     robot.stop()
     robot.settings(900,900,0,0)
     robot.straight(300)
 
-    turn_to_lundary()
+def turn_to_lundary(turn_value=94.5):
+
+    #turn to bottle
+    robot.stop()
+    robot.settings(0,0,900,900)
+    robot.turn(turn_value)
+
+    #move back to pick bottle
+    robot.stop()
+    robot.settings(900,900,0,0)
+    robot.straight(-50)
 
     #lift first lundary
-    lift(300,-280)
-    lift(300,280)
+    lift_up()
+    lift_down()
 
+def play_game(turn_to_ball=-122.5,turn_to_basket=95,turn_out_of_room=-65):
 
-def drop_water(water_position):
-    inside_room()
-    return(Dropping.drop_water_position(water_position))
-
-def game():
-    inside_room()
     
     #turn to ball
     robot.stop()
@@ -122,21 +200,21 @@ def game():
     #move to ball
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(-122.5)
+    robot.straight(turn_to_ball)
 
 
     #lift ball
-    lift(350,-170)
+    lift(500,-170)
 
-    #move to drop in basket
+    #move away from ball
     robot.stop()
     robot.settings(900,900,0,0)
     robot.straight(60)
 
-    #turn to ball
+    #turn to basket
     robot.stop()
     robot.settings(0,0,900,900)
-    robot.turn(95)
+    robot.turn(turn_to_basket)
 
     #move to basket
     robot.stop()
@@ -144,37 +222,24 @@ def game():
     robot.straight(-145)
 
     #drop ball
-    lift(350,110)
+    lift(500,110)
 
     #move away from basket
     robot.stop()
     robot.settings(900,900,0,0)
     robot.straight(128)
 
-    #move out of bottle
+    #turn outside the room
     robot.stop()
     robot.settings(0,0,900,900)
-    robot.turn(-65)
+    robot.turn(turn_out_of_room)
 
-    #out of room
+    #move out of room
     robot.stop()
     robot.settings(900,900,0,0)
     robot.straight(250)
 
-    lift(350,50)
+    lift_down()
 
     ls_following(proportional_gain=0, drive_speed=100)
     rs_following(proportional_gain=0, drive_speed=100)
-
-
-def turn_to_lundary():
-
-    #turn to bottle
-    robot.stop()
-    robot.settings(0,0,900,900)
-    robot.turn(94.5)
-
-    #move back to pick bottle
-    robot.stop()
-    robot.settings(900,900,0,0)
-    robot.straight(-50)
