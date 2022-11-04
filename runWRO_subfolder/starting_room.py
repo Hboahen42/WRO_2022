@@ -1,5 +1,5 @@
 from runWRO_subfolder.variable_initiation import *
-from runWRO_subfolder import inside_room1,inside_room2,inside_room3,inside_room4,lundary_sorting,dropping
+from runWRO_subfolder import lundary_sorting,dropping_water
 
 def start_at_yellow_room():
 
@@ -11,7 +11,7 @@ def start_at_yellow_room():
     #go back
     robot.stop()
     robot.settings(5000,5000,0,0)
-    robot.straight(-445)
+    robot.straight(-450.5)
 
     # #turn to room line
     robot.stop()
@@ -25,7 +25,7 @@ def start_at_yellow_room():
     #forward
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(7)
+    robot.straight(20)
 
     #left sensor following
     ls_following(proportional_gain=0.7,drive_speed=100)

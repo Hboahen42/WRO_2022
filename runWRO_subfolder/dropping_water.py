@@ -1,6 +1,6 @@
 #!/usr/bin/env pybricks-micropython
 from runWRO_subfolder.variable_initiation import *
-from runWRO_subfolder import inside_room1,inside_room2,inside_room3,inside_room4,lundary_sorting,dropping,starting_room
+from runWRO_subfolder import lundary_sorting,dropping_water,starting_room
     
     
     
@@ -17,7 +17,7 @@ def mid_drop():
     #move back to release bottle
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(-140)
+    robot.straight(-105)
 
     #lift remaining water
     lift(300,170)
@@ -32,7 +32,7 @@ def right_drop():
     #move back to drop bottle
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(110)
+    robot.straight(98)
     
     #lift drop bottle
     lift(300,-170)
@@ -40,10 +40,10 @@ def right_drop():
     #move back to release bottle
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(-115)
+    robot.straight(-105)
 
     #lift remaining water
-    lift_down(300,170)
+    lift(300,170)
 
 
 
@@ -56,7 +56,7 @@ def left_drop():
     #move back to drop bottle
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(110)
+    robot.straight(98)
     
     #lift drop bottle
     lift(300,-170)
@@ -64,7 +64,7 @@ def left_drop():
     #move back to release bottle
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(-135)
+    robot.straight(-105)
 
     #lift remaining water
     lift(300,170)

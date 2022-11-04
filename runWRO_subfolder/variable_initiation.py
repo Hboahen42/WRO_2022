@@ -20,7 +20,7 @@ left_motor = Motor(Port.B)
 right_motor = Motor(Port.C,positive_direction=Direction.COUNTERCLOCKWISE)
 left_sensor = ColorSensor(Port.S1)
 right_sensor = ColorSensor(Port.S4)
-color_1 = ColorSensor(Port.S3)
+color_1 = Ev3devSensor(Port.S3)
 color_2 = ColorSensor(Port.S2)
 large_motor = Motor(Port.D)
 drop_motor = Motor(Port.A)
@@ -143,10 +143,10 @@ def lift(rotation=160,angle=200):
     large_motor.run_angle(rotation,angle,then=Stop.BRAKE)
 
 def lift_up():
-    large_motor.run_until_stalled(speed=-500,then=Stop.BRAKE,duty_limit=30)
+    large_motor.run_until_stalled(speed=-700,then=Stop.BRAKE,duty_limit=50)
 
 def lift_down():
-    large_motor.run_until_stalled(speed=500,then=Stop.BRAKE,duty_limit=30)
+    large_motor.run_until_stalled(speed=700,then=Stop.BRAKE,duty_limit=50)
 
 def enter_room_a(straight_value=7,turn_value=-94):
     #pid
@@ -260,7 +260,6 @@ def play_game_a(move_to_ball=-122.5,turn_to_basket=95,turn_out_of_room=-65):
     rs_following(proportional_gain=0, drive_speed=100)
 
 def play_game_b(turn_to_ball=-65, move_to_ball=-126,turn_to_basket=-97,turn_out_of_room=68):
-    inside_room2()
     
     #turn to ball
     robot.stop()
@@ -321,11 +320,27 @@ def push_laundry_blocks():
 
     # push lundary
     robot.stop()
-    robot.settings(700,700,0,0)
+    robot.settings(500,500,0,0)
     robot.straight(130)
 
     # push lundary
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(-80)
+    robot.straight(-65)
 
+def laundry_block_color_covertion():
+    marking_block_color = {'GREEN':[0,1,2,3,4,5,11,12,13],'WHITE':list(range(14,19))}
+    
+    wait(350)   
+    marking_block_color_1 = color_1.read('COLOR')[0]
+
+
+    # converting hitech color sensor
+    for key,value in marking_block_color.items():
+        if marking_block_color_1 in value:
+            marking_block_color_1 = key
+            break
+    
+    return str(marking_block_color_1)
+
+        

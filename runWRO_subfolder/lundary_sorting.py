@@ -1,10 +1,27 @@
 from runWRO_subfolder.variable_initiation import *
-from runWRO_subfolder import inside_room1,inside_room2,inside_room3,inside_room4,dropping,starting_room
+from runWRO_subfolder import dropping_water,starting_room
 
+def out_of_laundry_area():
+    # push lundary
+    robot.stop()
+    robot.settings(900,900,0,0)
+    robot.straight(-100)
 
+    laundry_drop()
 
+    robot.stop()
+    robot.settings(900,900,0,0)
+    robot.straight(100)
+
+def laundry_drop():
+    robot.stop()
+    drop_motor.run_angle(900,200)
+
+    robot.stop()
+    drop_motor.run_angle(-900,200)
 
 # print(lundary_color)
+
 
 def basket_scanning():
 
@@ -21,25 +38,30 @@ def basket_scanning():
             break
     
     return basket_color_1
-
-
-   
-
     pid_distance(1.05,200,80)
+
 
 def backwards_basket_scanning():
     robot.stop()
     robot.settings(0,0,900,900)
-    robot.turn(93.5)
+    robot.turn(94.5)
 
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(-130)
+    robot.straight(-170)
 
-    basket_color_1 = str(color_1.color()).split(".")[1]
 
-    return basket_color_1
+def drop_cooresponding_color():
+    pid_distance(proportional_gain=0.15,drive_speed=150,distance=90)
+    laundry_drop()
 
+
+def laundry_check(basket_color_1):
+    lundary_color = str(color_2.color()).split(".")[1]
+    if lundary_color == basket_color_1:
+        drop_cooresponding_color()
+    else:
+        pid_distance(proportional_gain=0.2,drive_speed=150,distance=90)
 
 
 def lundary_sorting(basket_colors):
@@ -49,13 +71,14 @@ def lundary_sorting(basket_colors):
     # for x in range(4):
     x = 1
     
-    while x <= len(basket_colors):
+    while x <= 2:
         for k,v in basket_done.items():
             for key,value in basket_colors.items():
                 lundary_color = str(color_2.color()).split(".")[1]
+                print(lundary_color)
                 if str(value) == str(lundary_color):
                     if (key == 'basket_1') and (k == 'basket_1_done' and v == False) :
-                        basket_done['basket_1_done'] = move_to_basket_1()
+                        basket_done['basket_1_done'] = move_to_basket_3()
                         break
                         # move_to_basket_1()
                     elif key == 'basket_2' and (k == 'basket_2_done' and v == False):
@@ -63,23 +86,16 @@ def lundary_sorting(basket_colors):
                         break
                         # move_to_basket_2()
                     elif key == 'basket_3' and (k == 'basket_3_done' and v == False):
-                        basket_done['basket_3_done'] = move_to_basket_3()
+                        basket_done['basket_3_done'] = move_to_basket_1()
                         break
-                # else:
-                #     out_of_basket_color()                     
-
-                wait(100)
-
-        print(basket_done)
+                elif (str(lundary_color) == 'WHITE') or (str(lundary_color) == 'GREEN'):
+                    out_of_laundry_area()
+                    break
+        wait(100)
+    
         x += 1
 
-        
-def out_of_basket_color():
-    robot.stop()
-    drop_motor.run_angle(900,200)
 
-    robot.stop()
-    drop_motor.run_angle(-900,200)     
 
 def move_to_basket_3():
 
@@ -88,11 +104,7 @@ def move_to_basket_3():
     robot.settings(900,900,0,0)
     robot.straight(-40)
 
-    robot.stop()
-    drop_motor.run_angle(900,200)
-
-    robot.stop()
-    drop_motor.run_angle(-900,200)
+    laundry_drop()
 
     robot.stop()
     robot.settings(900,900,0,0)
@@ -100,17 +112,14 @@ def move_to_basket_3():
 
     return True
 
+
 def move_to_basket_2():
 
     robot.stop()
     robot.settings(900,900,0,0)
     robot.straight(80)
 
-    robot.stop()
-    drop_motor.run_angle(900,200)
-
-    robot.stop()
-    drop_motor.run_angle(-900,200)
+    laundry_drop()
 
     robot.stop()
     robot.settings(900,900,0,0)
@@ -118,17 +127,14 @@ def move_to_basket_2():
 
     return True
 
+
 def move_to_basket_1():
 
     robot.stop()
     robot.settings(900,900,0,0)
     robot.straight(195)
 
-    robot.stop()
-    drop_motor.run_angle(900,200)
-
-    robot.stop()
-    drop_motor.run_angle(-900,200)
+    laundry_drop()
 
     robot.stop()
     robot.settings(900,900,0,0)

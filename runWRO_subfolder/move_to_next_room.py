@@ -108,7 +108,7 @@ def move_to_laundry_basket():
     # straight to lundary
     robot.stop()
     robot.settings(900,900,0,0)
-    robot.straight(15)
+    robot.straight(25)
 
     robot.stop()
     robot.settings(0,0,900,900)
